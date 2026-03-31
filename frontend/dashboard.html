@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard – Smart Expense</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">💰</div>
+      <div>
+        <div class="logo-text">SmartExpense</div>
+        <div class="logo-sub">Budget Tracker</div>
+      </div>
+    </div>
+
+    <nav>
+      <div class="nav-label">Main Menu</div>
+      <a class="nav-link" data-page="dashboard" href="dashboard.html">
+        <span class="nav-icon">🏠</span> Dashboard
+      </a>
+      <a class="nav-link" data-page="add-expense" href="add-expense.html">
+        <span class="nav-icon">➕</span> Add Expense
+      </a>
+      <a class="nav-link" data-page="expenses" href="expenses.html">
+        <span class="nav-icon">📋</span> All Expenses
+      </a>
+      <a class="nav-link" data-page="report" href="report.html">
+        <span class="nav-icon">📊</span> Monthly Report
+      </a>
+
+      <div class="nav-label">Account</div>
+      <a class="nav-link" data-page="profile" href="profile.html">
+        <span class="nav-icon">👤</span> Profile
+      </a>
+      <a class="nav-link" id="logoutBtn" style="cursor:pointer">
+        <span class="nav-icon">🚪</span> Logout
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-chip">
+        <div class="user-avatar" id="sidebarAvatar">U</div>
+        <div>
+          <div class="user-chip-name"  id="sidebarUserName">User</div>
+          <div class="user-chip-email" id="sidebarUserEmail">email</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── Main Content ── -->
+  <main class="main-content">
+
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1>👋 Hello, <span id="welcomeName">there</span>!</h1>
+      <div class="breadcrumb">Here's your financial overview</div>
+    </div>
+
+    <!-- Budget Alert Banner -->
+    <div class="budget-alert-banner" id="budgetAlertBanner" style="display:none">
+      <span class="alert-icon">🚨</span>
+      <div>
+        <strong>Budget Alert!</strong>
+        <div id="budgetAlertAmt" style="font-size:14px;font-weight:400;margin-top:2px"></div>
+      </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="stats-grid">
+      <div class="stat-card purple">
+        <div class="stat-icon">💳</div>
+        <div class="stat-label">Total Expenses</div>
+        <div class="stat-value" id="totalExpenses">₹0.00</div>
+      </div>
+      <div class="stat-card red">
+        <div class="stat-icon">📅</div>
+        <div class="stat-label">Today's Spend</div>
+        <div class="stat-value" id="todayExpenses">₹0.00</div>
+      </div>
+      <div class="stat-card blue">
+        <div class="stat-icon">🗓️</div>
+        <div class="stat-label">Spent This Month</div>
+        <div class="stat-value" id="spentThisMonth">₹0.00</div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-icon">💰</div>
+        <div class="stat-label">Budget Left</div>
+        <div class="stat-value" id="budgetLeft">₹0.00</div>
+      </div>
+    </div>
+
+    <!-- Two column: Budget + Recent -->
+    <div class="two-col">
+
+      <!-- Set Monthly Budget -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">🎯 Monthly Budget</div>
+          <span style="font-size:13px;color:var(--text-muted)" id="budgetMonthLabel"></span>
+        </div>
+
+        <div id="budgetAlert" class="alert"></div>
+
+        <div class="form-group">
+          <label>Budget Amount (₹)</label>
+          <input type="number" id="budgetInput" placeholder="e.g. 20000" min="1" step="100"/>
+        </div>
+
+        <div style="margin-bottom:8px;font-size:13px;color:var(--text-muted)">
+          Monthly Budget: <strong id="monthlyBudget">₹0.00</strong>
+        </div>
+
+        <div class="progress-bar" style="margin-bottom:6px">
+          <div class="progress-fill safe" id="budgetProgressFill" style="width:0%"></div>
+        </div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:16px" id="budgetProgressPct"></div>
+
+        <button class="btn btn-primary" id="saveBudgetBtn">Save Budget</button>
+      </div>
+
+      <!-- Recent Expenses -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">🕐 Recent Expenses</div>
+          <a href="expenses.html" class="btn btn-secondary btn-sm">View All</a>
+        </div>
+        <div id="recentExpenses">
+          <div class="spinner"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Monthly Overview Chart -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">📈 6-Month Spending Overview</div>
+      </div>
+      <div class="chart-container">
+        <canvas id="monthlyChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="card">
+      <div class="card-title" style="margin-bottom:16px">⚡ Quick Actions</div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <a href="add-expense.html" class="btn btn-primary" style="width:auto">➕ Add Expense</a>
+        <a href="expenses.html"    class="btn btn-secondary">📋 All Expenses</a>
+        <a href="report.html"      class="btn btn-secondary">📊 View Report</a>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="js/common.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>

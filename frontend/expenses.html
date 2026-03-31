@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>All Expenses – Smart Expense</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">💰</div>
+      <div>
+        <div class="logo-text">SmartExpense</div>
+        <div class="logo-sub">Budget Tracker</div>
+      </div>
+    </div>
+    <nav>
+      <div class="nav-label">Main Menu</div>
+      <a class="nav-link" data-page="dashboard"   href="dashboard.html"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a class="nav-link" data-page="add-expense" href="add-expense.html"><span class="nav-icon">➕</span> Add Expense</a>
+      <a class="nav-link" data-page="expenses"    href="expenses.html"><span class="nav-icon">📋</span> All Expenses</a>
+      <a class="nav-link" data-page="report"      href="report.html"><span class="nav-icon">📊</span> Monthly Report</a>
+      <div class="nav-label">Account</div>
+      <a class="nav-link" data-page="profile"     href="profile.html"><span class="nav-icon">👤</span> Profile</a>
+      <a class="nav-link" id="logoutBtn"><span class="nav-icon">🚪</span> Logout</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-chip">
+        <div class="user-avatar" id="sidebarAvatar">U</div>
+        <div>
+          <div class="user-chip-name"  id="sidebarUserName">User</div>
+          <div class="user-chip-email" id="sidebarUserEmail">email</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── Main Content ── -->
+  <main class="main-content">
+    <div class="page-header">
+      <h1>📋 All Expenses</h1>
+      <div class="breadcrumb">Dashboard / All Expenses</div>
+    </div>
+
+    <!-- Summary bar -->
+    <div style="display:flex;align-items:center;justify-content:space-between;
+                background:var(--surface);border-radius:var(--radius);
+                padding:16px 20px;margin-bottom:20px;box-shadow:var(--shadow);flex-wrap:wrap;gap:12px">
+      <div style="display:flex;gap:24px;flex-wrap:wrap">
+        <div>
+          <div style="font-size:12px;color:var(--text-muted);font-weight:600;text-transform:uppercase">Total Records</div>
+          <div style="font-size:18px;font-weight:700" id="expenseCount">0</div>
+        </div>
+        <div>
+          <div style="font-size:12px;color:var(--text-muted);font-weight:600;text-transform:uppercase">Total Amount</div>
+          <div style="font-size:18px;font-weight:700;color:var(--accent)" id="expenseTotal">₹0.00</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <select id="categoryFilter" style="padding:8px 14px;border:2px solid var(--border);
+          border-radius:8px;font-size:14px;outline:none;background:var(--surface-2)">
+          <option value="All">All Categories</option>
+          <option value="Food">🍔 Food</option>
+          <option value="Travel">✈️ Travel</option>
+          <option value="Bills">📄 Bills</option>
+          <option value="Shopping">🛍️ Shopping</option>
+          <option value="Others">📦 Others</option>
+        </select>
+        <a href="add-expense.html" class="btn btn-primary" style="width:auto">➕ Add New</a>
+      </div>
+    </div>
+
+    <!-- Expense Table -->
+    <div class="card" id="expenseListContainer">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Expense</th>
+              <th>Category</th>
+              <th>Amount</th>
+              <th>Date</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="expenseTableBody">
+            <tr><td colspan="5"><div class="spinner"></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="js/common.js"></script>
+<script src="js/expense.js"></script>
+</body>
+</html>

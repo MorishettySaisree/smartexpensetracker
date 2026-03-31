@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Monthly Report – Smart Expense</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">💰</div>
+      <div>
+        <div class="logo-text">SmartExpense</div>
+        <div class="logo-sub">Budget Tracker</div>
+      </div>
+    </div>
+    <nav>
+      <div class="nav-label">Main Menu</div>
+      <a class="nav-link" data-page="dashboard"   href="dashboard.html"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a class="nav-link" data-page="add-expense" href="add-expense.html"><span class="nav-icon">➕</span> Add Expense</a>
+      <a class="nav-link" data-page="expenses"    href="expenses.html"><span class="nav-icon">📋</span> All Expenses</a>
+      <a class="nav-link" data-page="report"      href="report.html"><span class="nav-icon">📊</span> Monthly Report</a>
+      <div class="nav-label">Account</div>
+      <a class="nav-link" data-page="profile"     href="profile.html"><span class="nav-icon">👤</span> Profile</a>
+      <a class="nav-link" id="logoutBtn"><span class="nav-icon">🚪</span> Logout</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-chip">
+        <div class="user-avatar" id="sidebarAvatar">U</div>
+        <div>
+          <div class="user-chip-name"  id="sidebarUserName">User</div>
+          <div class="user-chip-email" id="sidebarUserEmail">email</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── Main Content ── -->
+  <main class="main-content">
+
+    <div class="page-header">
+      <h1>📊 Monthly Report</h1>
+      <div class="breadcrumb">Dashboard / Monthly Report</div>
+    </div>
+
+    <!-- Month/Year Selector -->
+    <div class="card" style="margin-bottom:20px">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <select id="reportMonth" style="padding:10px 14px;border:2px solid var(--border);
+          border-radius:8px;font-size:14px;outline:none;background:var(--surface-2)">
+          <option value="1">January</option>
+          <option value="2">February</option>
+          <option value="3">March</option>
+          <option value="4">April</option>
+          <option value="5">May</option>
+          <option value="6">June</option>
+          <option value="7">July</option>
+          <option value="8">August</option>
+          <option value="9">September</option>
+          <option value="10">October</option>
+          <option value="11">November</option>
+          <option value="12">December</option>
+        </select>
+
+        <select id="reportYear" style="padding:10px 14px;border:2px solid var(--border);
+          border-radius:8px;font-size:14px;outline:none;background:var(--surface-2)">
+          <option value="2023">2023</option>
+          <option value="2024">2024</option>
+          <option value="2025" selected>2025</option>
+          <option value="2026">2026</option>
+        </select>
+
+        <button class="btn btn-primary" id="loadReportBtn" style="width:auto">
+          📊 Generate Report
+        </button>
+      </div>
+    </div>
+
+    <!-- Loading indicator -->
+    <div id="reportLoading" style="text-align:center;padding:40px;display:none">
+      <div class="spinner"></div>
+      <p style="color:var(--text-muted);margin-top:10px">Generating report...</p>
+    </div>
+
+    <!-- Report Content -->
+    <div id="reportContent">
+
+      <!-- Report Title -->
+      <div style="font-family:var(--font-display);font-size:20px;font-weight:700;
+                  margin-bottom:16px" id="rMonthLabel">Report</div>
+
+      <!-- Budget Alert -->
+      <div class="budget-alert-banner" id="reportAlertBanner" style="display:none">
+        <span class="alert-icon">🚨</span>
+        <div id="reportAlertMsg"></div>
+      </div>
+
+      <!-- Summary Stats -->
+      <div class="stats-grid" style="margin-bottom:24px">
+        <div class="stat-card red">
+          <div class="stat-icon">💸</div>
+          <div class="stat-label">Total Spent</div>
+          <div class="stat-value" id="rTotalSpent">₹0.00</div>
+        </div>
+        <div class="stat-card blue">
+          <div class="stat-icon">🎯</div>
+          <div class="stat-label">Monthly Budget</div>
+          <div class="stat-value" id="rBudget">₹0.00</div>
+        </div>
+        <div class="stat-card green">
+          <div class="stat-icon">💰</div>
+          <div class="stat-label">Remaining Budget</div>
+          <div class="stat-value" id="rRemaining">₹0.00</div>
+        </div>
+      </div>
+
+      <!-- Budget Progress -->
+      <div class="card" style="margin-bottom:24px">
+        <div class="card-title" style="margin-bottom:14px">📏 Budget Usage</div>
+        <div class="progress-bar" style="height:14px">
+          <div class="progress-fill safe" id="rBudgetBar" style="width:0%"></div>
+        </div>
+        <div style="margin-top:8px;font-size:13px;color:var(--text-muted)" id="rBudgetPct"></div>
+      </div>
+
+      <!-- Charts + Category Summary -->
+      <div class="two-col" style="margin-bottom:24px">
+
+        <!-- Pie Chart -->
+        <div class="card">
+          <div class="card-title" style="margin-bottom:16px">🥧 Spending by Category</div>
+          <div class="chart-container" style="height:240px">
+            <canvas id="pieChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Category Summary -->
+        <div class="card">
+          <div class="card-title" style="margin-bottom:16px">📋 Category Breakdown</div>
+          <div id="categorySummary"></div>
+        </div>
+
+      </div>
+
+      <!-- Bar Chart -->
+      <div class="card" style="margin-bottom:24px">
+        <div class="card-title" style="margin-bottom:16px">📊 Category Bar Chart</div>
+        <div class="chart-container" style="height:250px">
+          <canvas id="barChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Expense Table -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">🧾 Expense Details</div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody id="reportExpenseBody">
+              <tr><td colspan="5" style="text-align:center;color:var(--text-muted)">
+                Select month and click Generate Report</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div><!-- /reportContent -->
+
+  </main>
+</div>
+
+<script src="js/common.js"></script>
+<script src="js/report.js"></script>
+</body>
+</html>
