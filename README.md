@@ -64,7 +64,7 @@ smart-expense/
 │   │   ├── expense.js
 │   │   ├── profile.js
 │   │   └── report.js
-│   ├── login.html
+│   ├── index.html
 │   ├── register.html
 │   ├── dashboard.html
 │   ├── add-expense.html
@@ -133,15 +133,15 @@ Started SmartExpenseApplication in 3.2 seconds
 
 **Option A – VS Code Live Server (Recommended)**
 1. Open `frontend/` folder in VS Code
-2. Right-click `login.html` → "Open with Live Server"
-3. App opens at `http://127.0.0.1:5500/login.html`
+2. Right-click `index.html` → "Open with Live Server"
+3. App opens at `http://127.0.0.1:5500/index.html`
 
 **Option B – Simple HTTP Server (Python)**
 ```bash
 cd frontend
 python -m http.server 5500
 ```
-Then open: `http://localhost:5500/login.html`
+Then open: `http://localhost:5500/index.html`
 
 ---
 
