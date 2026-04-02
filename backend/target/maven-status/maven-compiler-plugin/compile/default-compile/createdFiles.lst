@@ -29,5 +29,6 @@ com\smartexpense\SmartExpenseApplication.class
 com\smartexpense\entity\Budget.class
 com\smartexpense\entity\Expense.class
 com\smartexpense\repository\UserRepository.class
+com\smartexpense\controller\HomeController.class
 com\smartexpense\service\ReportService.class
 com\smartexpense\controller\ExpenseController.class
