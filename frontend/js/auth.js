@@ -32,7 +32,7 @@ async function handleRegister(e) {
       body: JSON.stringify({ fullName, email, password })
     });
     showAlert('regAlert', data.message || 'Registered! Redirecting...', 'success');
-    setTimeout(() => window.location.href = 'login.html', 1500);
+    setTimeout(() => window.location.href = 'index.html', 1500);
   } catch (err) {
     showAlert('regAlert', err.message || 'Registration failed.');
   } finally {

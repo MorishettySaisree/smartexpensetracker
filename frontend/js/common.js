@@ -16,14 +16,14 @@ function setUser(user) {
 
 function logout() {
   localStorage.removeItem('smartExpenseUser');
-  window.location.href = 'login.html';
+  window.location.href = 'index.html';
 }
 
 // ── Auth guard: redirect to login if not logged in ───────────
 function requireAuth() {
   const user = getUser();
   if (!user || !user.id) {
-    window.location.href = 'login.html';
+    window.location.href = 'index.html';
     return null;
   }
   return user;
