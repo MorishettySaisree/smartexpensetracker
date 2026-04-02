@@ -2,7 +2,7 @@
 // common.js – Shared utilities for Smart Expense System
 // ============================================================
 
-const API_BASE = 'http://localhost:8081/api';
+const API_BASE = 'https://smartexpensetracker-9.onrender.com/api';
 
 // ── Session helpers ──────────────────────────────────────────
 function getUser() {
